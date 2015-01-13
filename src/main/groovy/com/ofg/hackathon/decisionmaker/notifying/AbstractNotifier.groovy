@@ -1,11 +1,13 @@
 package com.ofg.hackathon.decisionmaker.notifying
-
+import com.nurkiewicz.asyncretry.AsyncRetryExecutor
 import com.ofg.hackathon.decisionmaker.model.Decision
 import com.ofg.hackathon.decisionmaker.model.LoanApplication
 import com.ofg.infrastructure.web.resttemplate.fluent.ServiceRestClient
 import com.ofg.infrastructure.web.resttemplate.fluent.common.request.HttpMethod
 import groovy.util.logging.Slf4j
 import org.springframework.beans.factory.annotation.Autowired
+
+import java.util.concurrent.ScheduledThreadPoolExecutor
 
 @Slf4j
 abstract class AbstractNotifier {
@@ -19,10 +21,12 @@ abstract class AbstractNotifier {
         try {
             HttpMethod httpMethod
 
+            def asyncRetryExecutor = new AsyncRetryExecutor(new ScheduledThreadPoolExecutor(1)).withMaxRetries(3)
+            def serviceBuilder = serviceRestClient.forService(service).retryUsing(asyncRetryExecutor)
             if (method == 'put') {
-                httpMethod = serviceRestClient.forService(service).put()
+                httpMethod = serviceBuilder.put()
             } else if (method == 'post') {
-                httpMethod = serviceRestClient.forService(service).post()
+                httpMethod = serviceBuilder.post()
             }
 
             httpMethod.onUrl(relativeUrl).
@@ -30,8 +34,7 @@ abstract class AbstractNotifier {
                     withHeaders().
                     contentTypeJson().
                     andExecuteFor().
-                    anObject().
-                    ofType(String)
+                    ignoringResponse()
         } catch (Exception e) {
             log.warn('Exception caught: ', e)
         }

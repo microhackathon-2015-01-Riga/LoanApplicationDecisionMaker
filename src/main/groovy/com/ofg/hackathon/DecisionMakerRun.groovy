@@ -2,6 +2,7 @@ package com.ofg.hackathon
 import com.ofg.infrastructure.discovery.EnableServiceDiscovery
 import com.ofg.infrastructure.environment.EnvironmentSetupVerifier
 import com.ofg.infrastructure.metrics.config.EnableMetrics
+import com.ofg.infrastructure.web.resttemplate.fluent.EnableServiceRestClient
 import groovy.transform.TypeChecked
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -14,6 +15,7 @@ import static com.ofg.config.BasicProfiles.*
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableServiceDiscovery
 @EnableMetrics
+@EnableServiceRestClient
 class DecisionMakerRun {
 
     static void main(String[] args) {
