@@ -22,6 +22,6 @@ public class DecisionStorage {
     }
 
     public Optional<Decision> getDecision(Long applicationId) {
-        return fromNullable(mongoTemplate.findOne(new Query(where("id").is(applicationId)), Decision.class));
+        return fromNullable(mongoTemplate.findOne(new Query(where("applicationId").is(applicationId)), Decision.class));
     }
 }

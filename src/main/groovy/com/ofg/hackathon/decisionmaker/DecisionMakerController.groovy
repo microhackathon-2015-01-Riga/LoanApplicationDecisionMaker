@@ -16,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.constraints.NotNull
 
 import static com.ofg.hackathon.decisionmaker.config.Versions.HACKATHON_DECISION_MAKER_JSON_VERSION_1
-import static org.springframework.http.HttpStatus.CREATED
-import static org.springframework.http.HttpStatus.OK
+import static org.springframework.http.HttpStatus.*
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
 
@@ -42,6 +41,10 @@ class DecisionMakerController {
     @RequestMapping(value = '{loanApplicationId}', method = GET, consumes = HACKATHON_DECISION_MAKER_JSON_VERSION_1, produces = HACKATHON_DECISION_MAKER_JSON_VERSION_1)
     @ApiOperation(value = "Returns processed decision")
     ResponseEntity<Decision> getDecision(@PathVariable @NotNull Long loanApplicationId) {
-        new ResponseEntity<Decision>(decisionEngine.getDecision(loanApplicationId), OK)
+        def decision = decisionEngine.getDecision(loanApplicationId)
+        if (decision.isPresent()) {
+            return new ResponseEntity<Decision>(decision.get(), OK)
+        }
+        return new ResponseEntity<Decision>(NOT_FOUND)
     }
 }
