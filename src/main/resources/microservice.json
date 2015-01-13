@@ -3,7 +3,7 @@
         "this": "com/ofg/hackathon/decisionmaker",
         "dependencies": {
             "reporting-service": {
-                "path": "com/ofg/reporting/service"
+                "path": "com/ofg/reporting-service"
             },
             "marketing-offer-generator": {
                 "path": "com/ofg/marketing-offer-generator"
