@@ -1,5 +1,4 @@
 package com.ofg.hackathon.decisionmaker
-
 import com.codahale.metrics.Counter
 import com.codahale.metrics.MetricRegistry
 import com.google.common.base.Optional
@@ -8,7 +7,6 @@ import com.ofg.hackathon.decisionmaker.model.LoanApplication
 import com.ofg.hackathon.decisionmaker.notifying.DecisionNotifier
 import org.apache.commons.lang.math.RandomUtils
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.scheduling.annotation.Async
 import org.springframework.stereotype.Component
 
 import javax.annotation.PostConstruct
@@ -35,7 +33,6 @@ class DecisionEngine {
         rejectedCounter = metricRegistry.counter('decision-rejected')
     }
 
-    @Async
     void process(Long applicationId, LoanApplication application) {
         def decision = decision(applicationId, application)
 

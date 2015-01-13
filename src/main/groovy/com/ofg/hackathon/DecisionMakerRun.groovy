@@ -1,5 +1,4 @@
 package com.ofg.hackathon
-
 import com.ofg.infrastructure.discovery.EnableServiceDiscovery
 import com.ofg.infrastructure.environment.EnvironmentSetupVerifier
 import com.ofg.infrastructure.metrics.config.EnableMetrics
@@ -7,14 +6,12 @@ import groovy.transform.TypeChecked
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.context.annotation.EnableAspectJAutoProxy
-import org.springframework.scheduling.annotation.EnableAsync
 
 import static com.ofg.config.BasicProfiles.*
 
 @TypeChecked
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
-@EnableAsync
 @EnableServiceDiscovery
 @EnableMetrics
 class DecisionMakerRun {
