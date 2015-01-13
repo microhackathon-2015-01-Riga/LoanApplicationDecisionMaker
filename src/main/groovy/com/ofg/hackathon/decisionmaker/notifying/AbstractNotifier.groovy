@@ -21,7 +21,7 @@ abstract class AbstractNotifier {
         try {
             HttpMethod httpMethod
 
-            def asyncRetryExecutor = new AsyncRetryExecutor(new ScheduledThreadPoolExecutor(1)).withMaxRetries(3)
+            def asyncRetryExecutor = new AsyncRetryExecutor(new ScheduledThreadPoolExecutor(1)).withMaxRetries(3).withMinDelay(1000)
             def serviceBuilder = serviceRestClient.forService(service).retryUsing(asyncRetryExecutor)
             if (method == 'put') {
                 httpMethod = serviceBuilder.put()

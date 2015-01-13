@@ -47,7 +47,7 @@ class DecisionEngine {
     }
 
     private Decision decision(Long applicationId, LoanApplication application) {
-        def randomInt = RandomUtils.nextInt(1)
+        def randomInt = RandomUtils.nextInt(2)
         new Decision(applicationId, randomInt != 0)
     }
 
