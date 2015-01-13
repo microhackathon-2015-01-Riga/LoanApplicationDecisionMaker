@@ -10,7 +10,7 @@ buildscript {
         classpath 'com.ofg:uptodate-gradle-plugin:1.1.0'
         classpath 'se.transmode.gradle:gradle-docker:1.2'
 
-        if(project.hasProperty("coverage")) {
+        if (project.hasProperty("coverage")) {
             classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:1.0.2'
         }
     }
@@ -33,7 +33,7 @@ ext {
     springVersion = '4.1.1.RELEASE'
     jacksonMapper = '1.9.13'
     aspectjVersion = '1.8.3'
-    microInfraSpringVersion = '0.7.7'
+    microInfraSpringVersion = '0.8.2'
 }
 
 uploadArchives {
@@ -63,11 +63,13 @@ jar {
 }
 
 project.gradle.projectsEvaluated {
-    applicationDefaultJvmArgs = project.gradle.startParameter.systemPropertiesArgs.entrySet().collect{"-D${it.key}=${it.value}"}
+    applicationDefaultJvmArgs = project.gradle.startParameter.systemPropertiesArgs.entrySet().collect {
+        "-D${it.key}=${it.value}"
+    }
 }
 
 test {
-    jvmArgs project.gradle.startParameter.systemPropertiesArgs.entrySet().collect{"-D${it.key}=${it.value}"}
+    jvmArgs project.gradle.startParameter.systemPropertiesArgs.entrySet().collect { "-D${it.key}=${it.value}" }
 }
 
 repositories {
@@ -94,7 +96,9 @@ dependencies {
     compile "org.aspectj:aspectjrt:$aspectjVersion"
     compile 'org.codehaus.gpars:gpars:1.2.1'
     compile 'net.sf.ehcache:ehcache:2.9.0'
-    compile ("com.ofg:micro-infra-spring-boot-starter:$microInfraSpringVersion") {
+    compile 'org.springframework.data:spring-data-mongodb:1.6.1.RELEASE'
+    compile 'com.github.fakemongo:fongo:1.5.9'
+    compile("com.ofg:micro-infra-spring-boot-starter:$microInfraSpringVersion") {
         exclude module: 'micro-infra-spring-config'
     }
 
@@ -109,7 +113,7 @@ dependencies {
     testCompile "org.spockframework:spock-core:$spockVersion"
     testRuntime "org.spockframework:spock-spring:$spockVersion"
     testCompile "org.springframework:spring-test:$springVersion"
-    testCompile('com.github.tomakehurst:wiremock:1.52'){
+    testCompile('com.github.tomakehurst:wiremock:1.52') {
         exclude group: 'org.mortbay.jetty', module: 'servlet-api'
     }
     testCompile "com.ofg:micro-infra-spring-test:$microInfraSpringVersion"
@@ -127,7 +131,7 @@ task docker(type: Docker) {
     entryPoint(['java', '-jar', "/${project.name}/${project.name}.jar"])
 }
 
-if(project.hasProperty("coverage")) {
+if (project.hasProperty("coverage")) {
     apply plugin: 'codenarc'
     apply plugin: 'jacoco'
     apply plugin: 'sonar-runner'

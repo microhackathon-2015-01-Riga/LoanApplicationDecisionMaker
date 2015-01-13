@@ -1,9 +1,12 @@
 {
     "pl": {
-        "this": "com/ofg/twitter-places-analyzer",
+        "this": "com/ofg/hackathon/decisionmaker",
         "dependencies": {
-            "collerator": {
-                "path": "com/ofg/twitter-places-collerator"
+            "reporting-service": {
+                "path": "com/ofg/reporting/service"
+            },
+            "marketing-offer-generator": {
+                "path": "com/ofg/marketing-offer-generator"
             }
         }
     }
