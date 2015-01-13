@@ -1,5 +1,4 @@
 package com.ofg.hackathon.decisionmaker
-
 import com.ofg.hackathon.decisionmaker.model.Decision
 import com.ofg.hackathon.decisionmaker.model.LoanApplication
 import com.wordnik.swagger.annotations.Api
@@ -15,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController
 
 import javax.validation.constraints.NotNull
 
-import static com.ofg.hackathon.decisionmaker.config.Versions.HACKATHON_DECISION_MAKER_JSON_VERSION_1
 import static org.springframework.http.HttpStatus.*
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 import static org.springframework.web.bind.annotation.RequestMethod.PUT
 
@@ -30,7 +29,7 @@ class DecisionMakerController {
     @Autowired
     DecisionEngine decisionEngine
 
-    @RequestMapping(value = '{loanApplicationId}', method = PUT, consumes = HACKATHON_DECISION_MAKER_JSON_VERSION_1, produces = HACKATHON_DECISION_MAKER_JSON_VERSION_1)
+    @RequestMapping(value = '{loanApplicationId}', method = PUT, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Async new loan application putting for decision making")
     ResponseEntity putLoanApplication(
             @PathVariable @NotNull Long loanApplicationId, @RequestBody @NotNull LoanApplication application) {
@@ -38,7 +37,7 @@ class DecisionMakerController {
         new ResponseEntity(CREATED)
     }
 
-    @RequestMapping(value = '{loanApplicationId}', method = GET, consumes = HACKATHON_DECISION_MAKER_JSON_VERSION_1, produces = HACKATHON_DECISION_MAKER_JSON_VERSION_1)
+    @RequestMapping(value = '{loanApplicationId}', method = GET, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Returns processed decision")
     ResponseEntity<Decision> getDecision(@PathVariable @NotNull Long loanApplicationId) {
         def decision = decisionEngine.getDecision(loanApplicationId)
